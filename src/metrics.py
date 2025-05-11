@@ -10,7 +10,7 @@ overall_ratings = df_clean_ratings['averageRating'].to_list()
 winners_ratings = winners_df['averageRating'].to_list()
 nominees_ratings = nominees_df['averageRating'].to_list()
 
-data = {
+ratings_data = {
     'Group': ['Winners', 'Non-Winners', 'All Ratings'],
     'Mean': [np.mean(winners_ratings), np.mean(nominees_ratings), np.mean(overall_ratings)],
     'Median': [np.median(winners_ratings), np.median(nominees_ratings), np.median(overall_ratings)]
