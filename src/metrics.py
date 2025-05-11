@@ -16,4 +16,4 @@ ratings_data = {
     'Median': [np.median(winners_ratings), np.median(nominees_ratings), np.median(overall_ratings)]
 }
 
-print(pl.DataFrame(data))
+print(pl.DataFrame(ratings_data))
