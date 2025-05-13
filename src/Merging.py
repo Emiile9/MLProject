@@ -126,4 +126,5 @@ final['winner'] = final['winner'].astype(int)
 final = final[['tconst', 'film', 'year_film', 'genres', 'averageRating',
        'dir_won_before', 'budget', 'nb_actor_won_before',
        'won_bafta', 'won_gg_drama', 'won_gg_comedy', 'winner']]
+final.drop_duplicates(subset='tconst', inplace=True)
 final.to_csv('final_data.csv', index = False)
