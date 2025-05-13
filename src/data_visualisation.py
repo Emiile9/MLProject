@@ -43,7 +43,7 @@ plot_path = os.path.join(plot_folder, 'budget_plot.png')
 plt.savefig(plot_path)
 plt.close()
 
-
+#Bar chart for genres comparing winners and nominees
 def get_genre_counts(data):
     exploded = data.assign(genres=data['genres'].str.split(',')).explode('genres')
     return exploded['genres'].value_counts()
@@ -76,4 +76,13 @@ plt.tight_layout()
 plot_path = os.path.join(plot_folder, 'genres_plot.png') 
 plt.savefig(plot_path)
 plt.close()
-print('Hello')
+
+#HeatMap for other awards won
+df_pandas = df.to_pandas()
+combo = df_pandas.groupby(['won_gg_drama', 'won_gg_comedy', 'won_bafta'])['winner'].mean().unstack(fill_value=0)
+sns.heatmap(combo, annot=True, cmap='YlGnBu')
+plt.title("Oscar Win Rate by Other Award Wins")
+plot_path = os.path.join(plot_folder, 'awards_plot.png') 
+plt.savefig(plot_path)
+plt.close()
+
