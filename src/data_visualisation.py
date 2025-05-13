@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import polars as pl 
+import pandas as pd
 import seaborn as sns 
 import os
 
@@ -39,6 +40,40 @@ plt.xlabel('Budget', fontsize=12)
 plt.ylabel('Density', fontsize=12)
 plt.legend()
 plot_path = os.path.join(plot_folder, 'budget_plot.png') 
+plt.savefig(plot_path)
+plt.close()
+
+
+def get_genre_counts(data):
+    exploded = data.assign(genres=data['genres'].str.split(',')).explode('genres')
+    return exploded['genres'].value_counts()
+
+nominees_pandas = nominees_df.to_pandas()
+winners_pandas = winners_df.to_pandas()
+nominee_genres = get_genre_counts(nominees_pandas)
+winner_genres = get_genre_counts(winners_pandas)
+
+
+nominee_percent = nominee_genres / len(nominees_pandas) * 100
+winner_percent = winner_genres / len(winners_pandas) * 100
+
+df_genres = pd.DataFrame({
+    'Nominees (%)': nominee_percent,
+    'Winners (%)': winner_percent
+}).fillna(0)
+
+
+df_genres['Average'] = (df_genres['Nominees (%)'] + df_genres['Winners (%)']) / 2
+df_genres = df_genres.sort_values('Average', ascending=True).drop(columns='Average')
+
+ax = df_genres.plot(kind='barh', figsize=(10, 12), width=0.7)
+plt.title('Genre Distribution (%): Nominees vs. Winners')
+plt.xlabel('Percentage of Films')
+plt.ylabel('Genre')
+plt.grid(axis='x', linestyle='--', alpha=0.7)
+plt.legend(loc='lower right')
+plt.tight_layout()
+plot_path = os.path.join(plot_folder, 'genres_plot.png') 
 plt.savefig(plot_path)
 plt.close()
 print('Hello')
