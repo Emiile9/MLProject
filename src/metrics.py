@@ -17,3 +17,18 @@ ratings_data = {
 }
 
 print(pl.DataFrame(ratings_data))
+
+df_clean_budgets = df.filter(df["budget"].is_not_null())
+winners_budget_df = df_clean_budgets.filter(pl.col("winner") == 1)
+nominees_budget_df = df_clean_budgets.filter(pl.col("winner") == 0)
+
+overall_budget = df_clean_budgets["budget"].to_list()
+winners_budget = winners_budget_df["budget"].to_list()
+nominees_budget = nominees_budget_df["budget"].to_list()
+budget_data = {
+    'Group': ['Winners', 'Non-Winners', 'All Ratings'],
+    'Mean': [np.mean(winners_budget), np.mean(nominees_budget), np.mean(overall_budget)],
+    'Median': [np.median(winners_budget), np.median(nominees_budget), np.median(overall_budget)]
+}
+
+print(pl.DataFrame(budget_data))

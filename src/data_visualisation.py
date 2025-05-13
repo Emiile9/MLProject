@@ -26,13 +26,9 @@ plt.savefig(plot_path)
 plt.close()
 
 #Same for budget 
-df_clean_budget = df.filter(df["budget"].is_not_null())
-winners_df_clean_budget = df.filter(pl.col("winner") == 1)
-nominees_df_clean_budget = df.filter(pl.col("winner") == 0)
-
-overall_budget = df_clean_budget['budget']
-winners_budget = winners_df_clean_budget['budget']
-nominees_budget = nominees_df_clean_budget['budget']
+overall_budget = df['budget']
+winners_budget = winners_df['budget']
+nominees_budget = nominees_df['budget']
 
 #distribution plot
 plt.figure(figsize=(8, 5))
