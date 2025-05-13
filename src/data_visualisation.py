@@ -85,4 +85,3 @@ plt.title("Oscar Win Rate by Other Award Wins")
 plot_path = os.path.join(plot_folder, 'awards_plot.png') 
 plt.savefig(plot_path)
 plt.close()
-
