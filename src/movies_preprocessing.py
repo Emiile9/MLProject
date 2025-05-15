@@ -35,5 +35,19 @@ def budget_preprocessing(df, replacement):
     df_filled['budget'] = np.log1p(df_filled['budget'])
     return df_filled
 
-df_filled = budget_preprocessing(df, "mean")
-df_filled.to_csv("filled_budget2.csv", index=False)
+def Scaling(df):
+    columns_to_scale = ["budget", "averageRating", "runtimeMinutes", "nb_actor_won_before"]
+    scaler = StandardScaler()
+    df_scaled = df.copy()
+    df_scaled[columns_to_scale] = scaler.fit_transform(df[columns_to_scale])
+    return df_scaled
+
+def full_processing(df, budget_replacement):
+    df_genres = genre_encoding(df)
+    df_budget = budget_preprocessing(df_genres, budget_replacement)
+    print(df_budget)
+    df_scaled = Scaling(df_budget)
+    return df_scaled
+
+processed_df = full_processing(df, "mean")
+processed_df.to_csv('processedDF.csv', index=False)
