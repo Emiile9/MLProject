@@ -12,7 +12,7 @@ names = pd.read_csv('name.basics.tsv', sep='\t', usecols=['nconst', 'primaryName
 #%%
 #Adding the ratings
 columns_to_use = ['tconst', 'averageRating']
-firstmerge = pd.read_csv('firstmerge.csv')
+firstmerge = pd.read_csv('../data/firstmerge.csv')
 ratings = pd.read_csv('title.ratings.tsv', sep='\t', usecols = columns_to_use)
 with_ratings = firstmerge.merge(ratings,on='tconst',how='left')
 #%%
@@ -125,6 +125,8 @@ final = actorsdf.merge(awardsdf, on = ['film', 'year_film'], how='left')
 final['winner'] = final['winner'].astype(int)
 final = final[['tconst', 'film', 'year_film', 'genres', 'averageRating',
        'dir_won_before', 'budget', 'nb_actor_won_before',
-       'won_bafta', 'won_gg_drama', 'won_gg_comedy', 'winner']]
+       'won_bafta', 'won_gg_drama', 'won_gg_comedy', 'runtimeMinutes', 'winner']]
+
 final.drop_duplicates(subset='tconst', inplace=True)
 final.to_csv('final_data.csv', index = False)
+
