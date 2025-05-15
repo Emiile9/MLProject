@@ -5,13 +5,13 @@ import pandas as pd
 from movies_preprocessing import full_processing
 
 df = pd.read_csv('../data/final_data.csv')
-df_processed = full_processing(df, "median")
-
-target = 'winner'
+features = ["year_film", "genres", "averageRating", "dir_won_before", "budget", "nb_actor_won_before","won_bafta","won_gg_drama","won_gg_comedy", "runtimeMinutes"]
 X = df[features]
-y = df [target]
+X_processed = full_processing(X, "median")
+X = X.drop(columns=['year_film'])
+y = df['winner']
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+X_train, X_test, y_train, y_test = train_test_split(X_processed, y, test_size=0.1)
 logReg = LogisticRegression(class_weight='balanced', penalty = 'l2')
 logReg.fit(X_train, y_train)
 
