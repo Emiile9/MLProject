@@ -1,10 +1,11 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix
-import polars as pl
-df = pl.read_csv('final_data.csv')
-features = ['dir_won_before', 'nb_actor_won_before', 'averageRating', 'won_bafta', 'won_gg_drama', 'won_gg_comedy']
-df = df.filter(pl.col("averageRating").is_not_null())
+import pandas as pd
+from movies_preprocessing import full_processing
+
+df = pd.read_csv('../data/final_data.csv')
+df_processed = full_processing(df, "median")
 
 target = 'winner'
 X = df[features]

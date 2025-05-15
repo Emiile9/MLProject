@@ -44,6 +44,5 @@ def Scaling(df):
 def full_processing(df, budget_replacement):
     df_genres = genre_encoding(df)
     df_budget = budget_preprocessing(df_genres, budget_replacement)
-    print(df_budget)
     df_scaled = Scaling(df_budget)
     return df_scaled
