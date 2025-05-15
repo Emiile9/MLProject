@@ -30,8 +30,7 @@ def fill_budget(row, df, remplacement):
 
 def budget_preprocessing(df, replacement):
     df_filled = df.copy()
-    df_filled['budget'] = df.apply(lambda row: fill_budget(row, df_filled, replacement), axis=1)
-    df_filled.drop(columns=["budget"]) 
+    df_filled['budget'] = df.apply(lambda row: fill_budget(row, df_filled, replacement), axis=1) 
     df_filled['budget'] = np.log1p(df_filled['budget'])
     return df_filled
 
@@ -48,6 +47,3 @@ def full_processing(df, budget_replacement):
     print(df_budget)
     df_scaled = Scaling(df_budget)
     return df_scaled
-
-processed_df = full_processing(df, "mean")
-processed_df.to_csv('processedDF.csv', index=False)
