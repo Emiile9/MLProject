@@ -26,9 +26,24 @@ overall_budget = df_clean_budgets["budget"].to_list()
 winners_budget = winners_budget_df["budget"].to_list()
 nominees_budget = nominees_budget_df["budget"].to_list()
 budget_data = {
-    'Group': ['Winners', 'Non-Winners', 'All Ratings'],
+    'Group': ['Winners', 'Non-Winners', 'All Budgets'],
     'Mean': [np.mean(winners_budget), np.mean(nominees_budget), np.mean(overall_budget)],
     'Median': [np.median(winners_budget), np.median(nominees_budget), np.median(overall_budget)]
 }
 
 print(pl.DataFrame(budget_data))
+
+df_clean_runtimeMinutess = df.filter(df["runtimeMinutes"].is_not_null())
+winners_runtimeMinutes_df = df_clean_runtimeMinutess.filter(pl.col("winner") == 1)
+nominees_runtimeMinutes_df = df_clean_runtimeMinutess.filter(pl.col("winner") == 0)
+
+overall_runtimeMinutes = df_clean_runtimeMinutess["runtimeMinutes"].to_list()
+winners_runtimeMinutes = winners_runtimeMinutes_df["runtimeMinutes"].to_list()
+nominees_runtimeMinutes = nominees_runtimeMinutes_df["runtimeMinutes"].to_list()
+runtimeMinutes_data = {
+    'Group': ['Winners', 'Non-Winners', 'All Runtimes'],
+    'Mean': [np.mean(winners_runtimeMinutes), np.mean(nominees_runtimeMinutes), np.mean(overall_runtimeMinutes)],
+    'Median': [np.median(winners_runtimeMinutes), np.median(nominees_runtimeMinutes), np.median(overall_runtimeMinutes)]
+}
+
+print(pl.DataFrame(runtimeMinutes_data))
