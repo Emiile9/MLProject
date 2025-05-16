@@ -38,22 +38,6 @@ with open(path_config, "w") as f:
 # Loading the dataset
 df = pl.read_csv(args.dataset_path)
 
-# Build the features and the targets
-columns = ["mnth", "hr", "workingday", "weathersit", "temp"]
-
-X = df[columns].to_pandas()
-y = df["bikers"].to_pandas()
-
-# Preprocessing
-lst_categ = [["Jan", "Feb", "March", "April", "May", "June", 
-    "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
-    list(range(24)),
-    [0, 1],
-    df["weathersit"].unique().to_numpy()]
-
-preprocess = ColumnTransformer([("ohe", OneHotEncoder(categories = lst_categ), ["mnth", "hr", "workingday", "weathersit"]),
-                                ("identity", FunctionTransformer(), ["temp"])])
-
 # Build the model
 if args.ml_method == "Linear":
     model = Ridge(alpha = args.l2_penalty)
