@@ -43,6 +43,23 @@ plot_path = os.path.join(plot_folder, 'budget_plot.png')
 plt.savefig(plot_path)
 plt.close()
 
+#Same for runtime
+overall_runtimeMinutes = df['runtimeMinutes']
+winners_runtimeMinutes = winners_df['runtimeMinutes']
+nominees_runtimeMinutes = nominees_df['runtimeMinutes']
+
+#distribution plot
+plt.figure(figsize=(8, 5))
+sns.kdeplot(nominees_runtimeMinutes, color='red', label='Nominees Distribution', fill=False)
+sns.kdeplot(winners_runtimeMinutes, color='green', label='Winners Distribution', fill=False)
+plt.title('Runtime Distribution for Nominees and Winners', fontsize=14)
+plt.xlabel('Runtime', fontsize=12)
+plt.ylabel('Density', fontsize=12)
+plt.legend()
+plot_path = os.path.join(plot_folder, 'runtimeMinutes_plot.png') 
+plt.savefig(plot_path)
+plt.close()
+
 #Bar chart for genres comparing winners and nominees
 def get_genre_counts(data):
     exploded = data.assign(genres=data['genres'].str.split(',')).explode('genres')
