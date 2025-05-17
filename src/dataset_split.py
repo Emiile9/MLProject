@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.model_selection import GroupShuffleSplit
 
 def split_dataset_by_year(df, test_years):
     years_sorted = sorted(df["year_film"].unique())
@@ -11,3 +12,12 @@ df = pd.read_csv('../data/final_data.csv')
 training, testing = split_dataset_by_year(df, 15)
 training.to_csv('../data/training.csv')
 testing.to_csv('../data/testing.csv')
+
+def train_test_split_perso(df, X, y, test_size):
+    groups = df['year_film']
+    gss = GroupShuffleSplit(n_splits=1, test_size=test_size)
+    train_idx, test_idx = next(gss.split(X, y, groups))
+
+    X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
+    y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
+    return X_train, X_test, y_train, y_test
