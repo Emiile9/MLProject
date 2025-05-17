@@ -5,7 +5,7 @@ import pickle
 from time import gmtime, strftime
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
-from LogisticRegression import compute_topk_accuracy
+from evaluation import compute_topk_accuracy
 from movies_preprocessing import full_processing
 from sklearn.pipeline import Pipeline
 from dataset_split import train_test_split_perso

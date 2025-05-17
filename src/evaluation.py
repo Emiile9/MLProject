@@ -1,3 +1,4 @@
+from itertools import product
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix
@@ -45,29 +46,25 @@ def compute_topk_accuracy(model, X_test, y_test,k):
 def get_n_accuracies(model, df, X, y, nb_of_runs=100):
     cpt_top1 = 0
     cpt_top3 = 0
+    top1_acc = []
+    top3_acc = []
     for i in range(nb_of_runs):
-        X_train, X_test, y_train, y_test = train_test_split_perso(df, X_processed, y, 0.2)
+        X_train, X_test, y_train, y_test = train_test_split_perso(df, X, y, 0.2)
         model.fit(X_train, y_train)
-        y_prob = model.predict_proba(X_test)[:, 1]
-        y_pred = get_final_ypred(y_prob, X_test)
-        results = concatenate_results(X_test, y_test, y_pred, y_prob)
-        top1, top3 = compute_topk_accuracy(results, 3)
-        cpt_top1 += top1
-        cpt_top3 += top3
-    avg_top1 = cpt_top1/nb_of_runs
-    avg_top3 = cpt_top3/nb_of_runs
-    return avg_top1, avg_top3
+        top1, top3 = compute_topk_accuracy(model, X_test, y_test,3)
+        top1_acc.append(top1)
+        top3_acc.append(top3)
+    return top1_acc, top3_acc
 
-df = pd.read_csv('../data/training.csv')
-features = ["year_film", "genres", "averageRating", "dir_won_before", "budget", "nb_actor_won_before","won_bafta","won_gg_drama","won_gg_comedy", "runtimeMinutes"]
-X = df[features]
-X_processed = full_processing(X, "median")
-y = df['winner']
-
-X_train, X_test, y_train, y_test = train_test_split_perso(df, X_processed, y, 0.2)
-logReg = LogisticRegression(max_iter=1000, class_weight='balanced', penalty='l1', solver='liblinear')
-logReg.fit(X_train, y_train)
-
+def custom_gridsearch(model_type, df, X, y, param_grid, nb_runs):
+    keys, values = zip(*param_grid.items())
+    all_combinations = [dict(zip(keys, v)) for v in product(*values)]
+    scores = []
+    for params in all_combinations:
+        model = model_type(**params)
+        top1 = get_n_accuracies(model, df, X, y, nb_runs)[0]
+        scores.append({**params, "top1": top1})
+    return pd.DataFrame(scores)
 
 '''
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
