@@ -56,10 +56,10 @@ nominees_mask = y == 0
 plt.figure(figsize=(10, 6))
 
 plt.scatter(X_pca[nominees_mask, 0], X_pca[nominees_mask, 1], 
-            c='blue', label='Nominees', alpha=0.6)
+            c='red', label='Nominees', alpha=0.5)
 
 plt.scatter(X_pca[winners_mask, 0], X_pca[winners_mask, 1], 
-            c='gold', label='Winners', alpha=0.7)
+            c='green', label='Winners', alpha=0.7)
 
 plt.title("PCA of Movies (Winners vs Nominees)")
 plt.xlabel("Principal Component 1")
