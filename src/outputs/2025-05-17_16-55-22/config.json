@@ -1,0 +1,1 @@
+{"dataset_path": "../data/training.csv", "ml_method": "Logistic", "l2_penalty": 0.5, "cv_nsplits": 10, "save_dir": "outputs"}

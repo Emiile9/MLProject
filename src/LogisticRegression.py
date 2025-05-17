@@ -27,7 +27,10 @@ def concatenate_results(X_test, y_test, y_pred, y_prob):
     results["proba"] = y_prob
     return results
 
-def compute_topk_accuracy(results,k):
+def compute_topk_accuracy(model, X_test, y_test,k):
+    y_prob = model.predict_proba(X_test)[:, 1]
+    y_pred = get_final_ypred(y_prob, X_test)
+    results = concatenate_results(X_test, y_test, y_pred, y_prob)
     top1_correct = 0
     topk_correct = 0
     total_years = results["year_film"].nunique()
@@ -39,7 +42,7 @@ def compute_topk_accuracy(results,k):
     topk_acc = topk_correct/total_years
     return top1_acc, topk_acc
     
-def get_accuracies(model, df, X, y, nb_of_runs):
+def get_n_accuracies(model, df, X, y, nb_of_runs=100):
     cpt_top1 = 0
     cpt_top3 = 0
     for i in range(nb_of_runs):
@@ -61,9 +64,10 @@ X = df[features]
 X_processed = full_processing(X, "median")
 y = df['winner']
 
-logReg = LogisticRegression(max_iter=1000, class_weight='balanced')
-top1_acc, top3_acc = get_accuracies(logReg, df, X_processed, y, 1000)
-print(top1_acc, top3_acc)
+X_train, X_test, y_train, y_test = train_test_split_perso(df, X_processed, y, 0.2)
+logReg = LogisticRegression(max_iter=1000, class_weight='balanced', penalty='l1', solver='liblinear')
+logReg.fit(X_train, y_train)
+
 
 '''
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
