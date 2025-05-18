@@ -5,8 +5,7 @@ import os
 import matplotlib.pyplot as plt
 from movies_preprocessing import full_processing
 from dataset_split import train_test_split_perso
-from sklearn.model_selection import GridSearchCV, GroupKFold
-from evaluation import compute_topk_accuracy, get_n_accuracies, get_final_ypred, custom_gridsearch
+from evaluation import get_n_accuracies_test
 
 df = pd.read_csv('../data/training.csv')
 features = ["year_film", "genres", "averageRating", "dir_won_before", "budget", "nb_actor_won_before","won_bafta","won_gg_drama","won_gg_comedy", "runtimeMinutes"]
@@ -26,7 +25,7 @@ top3_scores_std = []
 Cs = [0.001, 0.01, 0.1, 1, 10, 100]
 for c in Cs:
     log_reg_c = LogisticRegression(penalty='l2', C = c, max_iter=1000, solver='liblinear', class_weight='balanced')
-    top1, top3 = get_n_accuracies(log_reg_c, df, X_processed, y, 100)
+    top1, top3 = get_n_accuracies_test(log_reg_c, df, X_processed, y, 100)
     top1_scores_mean.append(np.mean(top1))
     top3_scores_mean.append(np.mean(top3))
     top1_scores_std.append(np.std(top1))
@@ -54,7 +53,7 @@ top1_scores_mean_precise = []
 top3_scores_mean_precise = []
 for c in precise_Cs:
     log_reg_c = LogisticRegression(penalty='l2', C = c, max_iter=1000, solver='liblinear', class_weight='balanced')
-    top1, top3 = get_n_accuracies(log_reg_c, df, X_processed, y, 1000)
+    top1, top3 = get_n_accuracies_test(log_reg_c, df, X_processed, y, 1000)
     top1_scores_mean_precise.append(np.mean(top1))
     top3_scores_mean_precise.append(np.mean(top3))
 

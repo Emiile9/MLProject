@@ -43,7 +43,7 @@ def compute_topk_accuracy(model, X_test, y_test,k):
     topk_acc = topk_correct/total_years
     return top1_acc, topk_acc
     
-def get_n_accuracies(model, df, X, y, nb_of_runs=100):
+def get_n_accuracies_test(model, df, X, y, nb_of_runs=100):
     cpt_top1 = 0
     cpt_top3 = 0
     top1_acc = []
@@ -52,6 +52,19 @@ def get_n_accuracies(model, df, X, y, nb_of_runs=100):
         X_train, X_test, y_train, y_test = train_test_split_perso(df, X, y, 0.2)
         model.fit(X_train, y_train)
         top1, top3 = compute_topk_accuracy(model, X_test, y_test,3)
+        top1_acc.append(top1)
+        top3_acc.append(top3)
+    return top1_acc, top3_acc
+
+def get_n_accuracies_train(model, df, X, y, nb_of_runs=100):
+    cpt_top1 = 0
+    cpt_top3 = 0
+    top1_acc = []
+    top3_acc = []
+    for i in range(nb_of_runs):
+        X_train, X_test, y_train, y_test = train_test_split_perso(df, X, y, 0.2)
+        model.fit(X_train, y_train)
+        top1, top3 = compute_topk_accuracy(model, X_train, y_train,3)
         top1_acc.append(top1)
         top3_acc.append(top3)
     return top1_acc, top3_acc
