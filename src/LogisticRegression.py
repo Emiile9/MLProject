@@ -19,8 +19,6 @@ X_train, X_test, y_train, y_test = train_test_split_perso(df, X_processed, y, 0.
 log_reg_raw = LogisticRegression(max_iter=1000, class_weight='balanced', solver = 'liblinear')
 log_reg_raw.fit(X_train, y_train)
 
-log_reg_regu = LogisticRegression(penalty='elasticnet', solver='saga', max_iter=5000)
-
 top1_scores_mean = []
 top3_scores_mean = []
 top1_scores_std = []
@@ -28,7 +26,7 @@ top3_scores_std = []
 Cs = [0.001, 0.01, 0.1, 1, 10, 100]
 for c in Cs:
     log_reg_c = LogisticRegression(penalty='l2', C = c, max_iter=1000, solver='liblinear', class_weight='balanced')
-    top1, top3 = get_n_accuracies(log_reg_c, df, X_processed, y, 1000)
+    top1, top3 = get_n_accuracies(log_reg_c, df, X_processed, y, 100)
     top1_scores_mean.append(np.mean(top1))
     top3_scores_mean.append(np.mean(top3))
     top1_scores_std.append(np.std(top1))
@@ -48,3 +46,18 @@ plot_folder = os.path.join('..', 'plots')
 plot_path = os.path.join(plot_folder, 'C_choice_logReg.png') 
 plt.savefig(plot_path)
 plt.close()
+
+
+#C is between 0.1 and 1 we can search for it more precisely 
+precise_Cs = np.linspace(0.1, 1, 10)
+top1_scores_mean_precise = []
+top3_scores_mean_precise = []
+for c in precise_Cs:
+    log_reg_c = LogisticRegression(penalty='l2', C = c, max_iter=1000, solver='liblinear', class_weight='balanced')
+    top1, top3 = get_n_accuracies(log_reg_c, df, X_processed, y, 1000)
+    top1_scores_mean_precise.append(np.mean(top1))
+    top3_scores_mean_precise.append(np.mean(top3))
+
+print(top1_scores_mean_precise)
+print(top3_scores_mean_precise)
+print(precise_Cs)
