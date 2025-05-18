@@ -1,5 +1,4 @@
-from xgboost import XGBClassifier, plot_importance
-import xgboost as xgb
+from xgboost import XGBClassifier, plot_importanc
 import pandas as pd
 import numpy as np
 import os
