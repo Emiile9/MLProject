@@ -68,19 +68,3 @@ def get_n_accuracies_train(model, df, X, y, nb_of_runs=100):
         top1_acc.append(top1)
         top3_acc.append(top3)
     return top1_acc, top3_acc
-
-def custom_gridsearch(model_type, df, X, y, param_grid, nb_runs):
-    keys, values = zip(*param_grid.items())
-    all_combinations = [dict(zip(keys, v)) for v in product(*values)]
-    scores = []
-    for params in all_combinations:
-        model = model_type(**params)
-        top1 = get_n_accuracies(model, df, X, y, nb_runs)[0]
-        scores.append({**params, "top1": top1})
-    return pd.DataFrame(scores)
-
-'''
-print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-print("\nClassification Report:\n", classification_report(y_test, y_pred))
-print("ROC AUC Score:", roc_auc_score(y_test, y_pred))
-'''
