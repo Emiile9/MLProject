@@ -4,9 +4,9 @@ This project aims to predict the Best Picture Oscar winner using various machine
 
 🧠 Models Supported
 
-Logistic Regression
-Random Forest
-Gradient Boosting (XGBoost)
+Logistic Regression \\
+Random Forest \\
+Gradient Boosting (XGBoost) \\
 📁 Dataset
 
 The dataset should contain features such as:
