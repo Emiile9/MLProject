@@ -16,11 +16,11 @@ parser = argparse.ArgumentParser(
         prog = "24/25 ML Project Emile Descroix",
         description = "Main Program for the 24/25 ML Project")
 
-parser.add_argument("--dataset_path", type = str, default = "", help = "path to the dataset file")
-parser.add_argument("--ml_method", type = str, default = "Logistic", help = "name of the ML method to use ('Logistic', 'Random Forest', 'Gradient Boosting')")
+parser.add_argument("--dataset_path", type = str, default = '../data/final_oscar_data.csv', help = "path to the dataset file")
+parser.add_argument("--ml_method", type = str, default = "LogisticRegression", help = "name of the ML method to use ('LogisticRegression', 'RandomForest', 'GradientBoosting')")
 parser.add_argument("--l2_penalty", type = float, default = 1., help = "strength of the L2 penalty used when fitting the model")
-parser.add_argument("--max_depth", type = float, default = 3, help = "max depth of trees estimators for Random Forest and XGBoost")
-parser.add_argument("--n_estimators", type = float, default = 3, help = "number of trees estimators for Random Forest and XGBoost")
+parser.add_argument("--max_depth", type = int, default = 3, help = "max depth of trees estimators for Random Forest and XGBoost")
+parser.add_argument("--n_estimators", type = int, default = 3, help = "number of trees estimators for Random Forest and XGBoost")
 parser.add_argument("--cv_nsplits", type = int, default = 5, help = "cross-validation: number of splits")
 parser.add_argument("--save_dir", type = str, default = "", help = "where to save the model, the logs and the configuration")
 
@@ -49,11 +49,11 @@ X_train, X_test, y_train, y_test = train_test_split_perso(df, X_processed, y, 0.
 
 
 # Build the model
-if args.ml_method == "Logistic":
+if args.ml_method == "LogisticRegression":
     model = LogisticRegression(C=args.l2_penalty, class_weight='balanced', max_iter=1000)
-elif args.ml_method == "Random Forest":
+elif args.ml_method == "RandomForest":
     model = RandomForestClassifier(n_estimators=args.n_estimators, max_depth= args.max_depth, class_weight='balanced')
-elif args.ml_method == "XGBoost":
+elif args.ml_method == "GradientBoosting":
     model = model = XGBClassifier(
                         n_estimators=args.n_estimators,
                         max_depth=args.max_depth,
@@ -68,7 +68,7 @@ else:
 
 
 X_processed = full_processing(X, "median")
-model.fit(X_train, y)
+model.fit(X_train, y_train)
 
 # Save model
 with open(path_model, 'wb') as f:
