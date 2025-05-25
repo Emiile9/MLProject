@@ -8,8 +8,6 @@ from itertools import product
 from movies_preprocessing import full_processing
 from dataset_split import train_test_split_perso
 from evaluation import get_n_accuracies_test, get_n_accuracies_train
-from sklearn.metrics import make_scorer
-from sklearn.model_selection import GroupKFold, GridSearchCV
 
 df = pd.read_csv('../data/training.csv')
 features = ["year_film", "genres", "averageRating", "dir_won_before", "budget", "nb_actor_won_before","won_bafta","won_gg_drama","won_gg_comedy", "runtimeMinutes"]
