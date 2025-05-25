@@ -4,7 +4,7 @@ import pandas as pd
 import seaborn as sns 
 import os
 
-df = pl.read_csv('../data/final_data.csv')
+df = pl.read_csv('../data/final_oscar_data.csv')
 winners_df = df.filter(pl.col("winner") == 1)
 nominees_df = df.filter(pl.col("winner") == 0)
 

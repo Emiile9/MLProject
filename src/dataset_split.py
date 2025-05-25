@@ -8,7 +8,7 @@ def split_dataset_by_year(df, test_years):
     df_train = df[~df["year_film"].isin(test_years_list)].copy()
     df_test = df[df["year_film"].isin(test_years_list)].copy()
     return df_train, df_test
-df = pd.read_csv("../data/final_data.csv")
+df = pd.read_csv("../data/final_oscar_data.csv")
 df_train, df_test = split_dataset_by_year(df, 15)
 df_train.to_csv("../data/training.csv", index=False)
 df_test.to_csv("../data/testing.csv", index = False)

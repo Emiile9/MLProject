@@ -7,7 +7,7 @@ from sklearn.metrics import silhouette_score
 import os
 
 plot_folder = os.path.join('..', 'plots')
-df = pd.read_csv('../data/final_data.csv')
+df = pd.read_csv('../data/final_oscar_data.csv')
 features = ["year_film", "genres", "averageRating", "dir_won_before", "budget", "nb_actor_won_before","won_bafta","won_gg_drama","won_gg_comedy", "runtimeMinutes"]
 X = df[features]
 X_processed = full_processing(X, "median")

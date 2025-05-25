@@ -1,4 +1,4 @@
-from xgboost import XGBClassifier, plot_importanc
+from xgboost import XGBClassifier
 import pandas as pd
 import numpy as np
 import os
@@ -7,7 +7,6 @@ import seaborn as sns
 from movies_preprocessing import full_processing
 from dataset_split import train_test_split_perso
 from evaluation import get_n_accuracies_test, get_n_accuracies_train
-from sklearn.model_selection import GroupKFold, GridSearchCV
 
 df = pd.read_csv('../data/training.csv')
 features = ["year_film", "genres", "averageRating", "dir_won_before", "budget", "nb_actor_won_before","won_bafta","won_gg_drama","won_gg_comedy", "runtimeMinutes"]
@@ -78,9 +77,6 @@ df_val_results = pd.DataFrame(results_validation)
 print("Validation Top-1 Accuracy (sorted):")
 print(df_val_results.sort_values(by="top1_accuracy", ascending=False).head(10).to_string(index=False))
 
-# Optional: also display training scores
-#print("\nTraining Top-1 Accuracy (sorted):")
-#print(df_train_results.sort_values(by="top1_accuracy", ascending=False).head(10).to_string(index=False))
 '''
 
 results_training = []
@@ -134,7 +130,7 @@ plot_path = os.path.join(plot_folder, 'Top1_valid_XGB.png')
 plt.savefig(plot_path)
 plt.close()
 
-#Plot for validation 
+#Plot for training 
 plt.figure(figsize=(10, 6))
 sns.heatmap(train_pivot, annot=True, fmt=".2f", cmap="YlOrRd")
 plt.title("Top-1 Accuracy by max_depth and lambda values on training set")

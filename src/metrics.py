@@ -1,6 +1,6 @@
 import numpy as np
 import polars as pl
-df = pl.read_csv('../data/final_data.csv')
+df = pl.read_csv('../data/final_oscar_data.csv')
 
 df_clean_ratings = df.filter(df["averageRating"].is_not_null())
 winners_df = df_clean_ratings.filter(pl.col("winner") == 1)

@@ -2,7 +2,6 @@ from sklearn.preprocessing import StandardScaler, MultiLabelBinarizer
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('../data/final_data.csv')
 def genre_encoding(df):
     df["genres_list"] = df["genres"].str.split(",")
     mlb = MultiLabelBinarizer()
